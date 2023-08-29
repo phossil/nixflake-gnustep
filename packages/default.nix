@@ -1,74 +1,30 @@
 { pkgs, lib }:
 
 lib.makeScope pkgs.newScope (self: with self; {
-  loudgain = callPackage ./loudgain { };
+  xcode = callPackage ./libs/xcode { };
+  terminal = callPackage ./terminal { };
+  price = callPackage ./price { };
+  step_sync = callPackage ./stepsync { };
+  themes-gtk = callPackage ./plugins/themes-gtk { };
   # broken
-  etoile = callPackage ./etoile {
-    llvm = callPackage ./etoile/llvm.nix {
-      stdenv = pkgs.gcc49Stdenv;
-    };
-  };
-  clasp-common-lisp = callPackage ./clasp {
-    llvmPackages = pkgs.llvmPackages_15;
-  };
-  qvwm = callPackage ./qvwm { };
-  egmde = callPackage ./egmde { };
-  sfwbar = callPackage ./sfwbar { };
+  cenon = callPackage ./cenon { };
+  help_viewer = callPackage ./helpviewer { };
+  ftp = callPackage ./ftp { };
+  graphos = callPackage ./graphos { };
   # broken
-  lainwm = callPackage ./lainwm { };
+  code_editor = callPackage ./codeeditor { };
   # broken
-  musicnya-desktop = callPackage ./musicnya-desktop { };
-  # broken bc im stupid
-  lem = callPackage ./lem { };
-  wapanel = callPackage ./wapanel { };
-  xcode = callPackage ./gnustep/libs/xcode { };
-  terminal = callPackage ./gnustep/terminal { };
-  price = callPackage ./gnustep/price { };
-  step_sync = callPackage ./gnustep/stepsync { };
-  themes-gtk = callPackage ./gnustep/plugins/themes-gtk { };
+  steptalk = callPackage ./steptalk { };
+  text_edit = callPackage ./textedit { };
   # broken
-  cenon = callPackage ./gnustep/cenon { };
-  help_viewer = callPackage ./gnustep/helpviewer { };
-  ftp = callPackage ./gnustep/ftp { };
-  graphos = callPackage ./gnustep/graphos { };
+  corebase = callPackage ./libs/corebase { };
+  dbuskit = callPackage ./libs/dbuskit { };
   # broken
-  code_editor = callPackage ./gnustep/codeeditor { };
-  # broken
-  steptalk = callPackage ./gnustep/steptalk { };
-  text_edit = callPackage ./gnustep/textedit { };
-  # broken
-  corebase = callPackage ./gnustep/libs/corebase { };
-  dbuskit = callPackage ./gnustep/libs/dbuskit { };
-  # broken
-  opal = callPackage ./gnustep/libs/opal { };
-  simplewebkit = callPackage ./gnustep/libs/simplewebkit { };
-  vespucci = callPackage ./gnustep/vespucci {
+  opal = callPackage ./libs/opal { };
+  simplewebkit = callPackage ./libs/simplewebkit { };
+  vespucci = callPackage ./vespucci {
     simplewebkit = self.simplewebkit;
   };
   # broken
-  cocotron = callPackage ./cocotron { };
-  # broken
-  themes-win_ux_theme = callPackage ./gnustep/plugins/themes-winuxtheme { };
-  # broken
-  cpdup = callPackage ./cpdup { };
-  # broken
-  radium = callPackage ./radium { };
-
-  # all broken bc macos projects with gnustep-xcode
-  nimble-commander = callPackage ./nimble-commander {
-    gnustep-xcode = self.xcode;
-  };
-  skim-app = callPackage ./skim-app {
-    gnustep-xcode = self.xcode;
-  };
-  hex_fiend = callPackage ./hexfiend {
-    gnustep-xcode = self.xcode;
-  };
-  # broken
-  adium = callPackage ./adium {
-    gnustep-xcode = self.xcode;
-  };
-  filer = callPackage ./filer {
-    gnustep-xcode = self.xcode;
-  };
+  themes-win_ux_theme = callPackage ./plugins/themes-winuxtheme { };
 })
