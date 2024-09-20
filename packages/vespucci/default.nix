@@ -1,19 +1,17 @@
 { lib
-, fetchFromGitHub
+, fetchsvn
 , gnustep
 , simplewebkit
 }:
 
 gnustep.gsmakeDerivation rec {
   pname = "vespucci";
-  version = "0.1";
+  version = "0-unstable-2021-03-05";
 
-  src = fetchFromGitHub {
-    owner = "phossil";
-    repo = "Vespucci";
-    rev = "801e56291215d59d1923e4b5d607854e9bcefdbc";
-    sha256 = "1v7IzqUkOH9Gtekz6NMDEgRJcx96bzrVZx2/kH9vHeY=";
-    fetchSubmodules = true;
+  src = fetchsvn {
+    url = "svn://svn.savannah.nongnu.org/gap/trunk/user-apps/Vespucci";
+    rev = "3858";
+    sha256 = "sha256-ZG/hh59RuXOXb2MGcVs0mnlkXcSnvdH2rVNQ9sFmqWI=";
   };
 
   buildInputs = with gnustep; [ base back gui ] ++ [ simplewebkit ];
@@ -21,7 +19,7 @@ gnustep.gsmakeDerivation rec {
   meta = with lib; {
     description = "Vespucci is a navigator for the World Wide Web";
     homepage = "http://gap.nongnu.org/vespucci/index.html";
-    #license = licenses.gpl2Plus;
+    license = licenses.gpl2Plus;
     maintainers = with maintainers; [ phossil ];
     platforms = platforms.linux;
   };

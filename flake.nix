@@ -11,7 +11,7 @@
     in
     {
       # these are yet to be added to nixpkgs
-      packages.${system} = with pkgs; {
+      packages.${system} = with pkgs; rec {
         xcode = callPackage ./packages/libs/xcode { };
         terminal = callPackage ./packages/terminal { };
         price = callPackage ./packages/price { };
@@ -33,10 +33,9 @@
         # broken
         #opal = callPackage ./packages/libs/opal { };
         simplewebkit = callPackage ./packages/libs/simplewebkit { };
-        # i deleted my poorly made mirror
-        #vespucci = callPackage ./packages/vespucci {
-        #  simplewebkit = self.simplewebkit;
-        #};
+        vespucci = callPackage ./packages/vespucci {
+          inherit simplewebkit;
+        };
         # broken
         themes-win_ux_theme = callPackage ./packages/plugins/themes-winuxtheme { };
       };
