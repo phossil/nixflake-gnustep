@@ -1,9 +1,11 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "price";
   version = "1.3.0";
 
@@ -12,7 +14,16 @@ gnustep.gsmakeDerivation rec {
     sha256 = "16zl19pkz7rrrasygig1lc7jskq5z9n4b4lrji1kn0ii6w8wljs6";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     description = "Imaging application for GNUstep and MacOS ";

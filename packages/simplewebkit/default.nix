@@ -1,9 +1,11 @@
-{ lib
-, fetchFromGitHub
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "simplewebkit";
   version = "2020-05-30";
 
@@ -15,11 +17,18 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  buildInputs = with gnustep; [ base gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    gui
+  ];
 
   meta = with lib; {
-    description =
-      "Lightweight implementation of a subset of WebKit APIs using AppKit";
+    description = "Lightweight implementation of a subset of WebKit APIs using AppKit";
     homepage = "http://www.gnustep.org/";
     license = licenses.lgpl21Plus;
     maintainers = with maintainers; [ phossil ];

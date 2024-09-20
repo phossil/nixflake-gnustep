@@ -1,6 +1,8 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
 let
@@ -9,7 +11,7 @@ let
     sha256 = "0i5vij1gi4l3v6656dzlwjv02d5549lqznfxxqzdjh2v9cd36adk";
   };
 in
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "cenon";
   version = "4.0.2";
 
@@ -18,7 +20,16 @@ gnustep.gsmakeDerivation rec {
     sha256 = "0bzbn2kjzbjczp6ss8rsy0vj4p9x589q385p9qrccrrrkxvzya6j";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   # move CenonLibrary file to appropriate path
   # Cenon wants one of "/usr/GNUstep/Local/Library" or

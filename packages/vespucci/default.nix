@@ -1,10 +1,12 @@
-{ lib
-, fetchsvn
-, gnustep
-, simplewebkit
+{
+  lib,
+  clangStdenv,
+  fetchsvn,
+  gnustep,
+  simplewebkit,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "vespucci";
   version = "0-unstable-2021-03-05";
 
@@ -14,7 +16,14 @@ gnustep.gsmakeDerivation rec {
     sha256 = "sha256-ZG/hh59RuXOXb2MGcVs0mnlkXcSnvdH2rVNQ9sFmqWI=";
   };
 
-  buildInputs = with gnustep; [ base back gui ] ++ [ simplewebkit ];
+  buildInputs =
+    with gnustep;
+    [
+      base
+      back
+      gui
+    ]
+    ++ [ simplewebkit ];
 
   meta = with lib; {
     description = "Vespucci is a navigator for the World Wide Web";

@@ -1,9 +1,11 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "steptalk";
   version = "0.10.0";
 
@@ -12,7 +14,16 @@ gnustep.gsmakeDerivation rec {
     sha256 = "05f1vxpf7898smxgap4zsmny5aspba7l0y1gxcy4ngab21yskzci";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     # requires gnustep renaissance, probably ?

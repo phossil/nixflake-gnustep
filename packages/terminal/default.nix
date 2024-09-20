@@ -1,9 +1,11 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "terminal";
   version = "0.9.9";
 
@@ -12,7 +14,16 @@ gnustep.gsmakeDerivation rec {
     sha256 = "1s90q81wycrp6ngw4n0wal7c5gkk97g2q0c0q3lcs45xrnz1py17";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   postPatch = ''
     echo "Apply fix as seen in Gentoo"

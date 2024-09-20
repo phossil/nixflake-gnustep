@@ -1,12 +1,14 @@
-{ lib
-, fetchFromGitHub
-, gnustep
-, gtk2
-, gnome2
-, pkg-config
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
+  gtk2,
+  gnome2,
+  pkg-config,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "themes-gtk";
   version = "2017-12-17";
 
@@ -18,16 +20,24 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  buildInputs = with gnustep; [
-    base
-    back
-    gui
-    system_preferences
-  ] ++ [
-    gtk2
-    gnome2.GConf
-    pkg-config
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
   ];
+
+  buildInputs =
+    with gnustep;
+    [
+      base
+      back
+      gui
+      system_preferences
+    ]
+    ++ [
+      gtk2
+      gnome2.GConf
+      pkg-config
+    ];
 
   meta = with lib; {
     description = "GTK theme for GNUstep";

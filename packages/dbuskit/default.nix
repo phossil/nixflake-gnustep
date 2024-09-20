@@ -1,12 +1,14 @@
-{ lib
-, fetchFromGitHub
-, gnustep
-, dbus
-, libclang
-, pkg-config
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
+  dbus,
+  libclang,
+  pkg-config,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "dbuskit";
   version = "2021-01-19";
 
@@ -18,9 +20,18 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+    pkg-config
+  ];
 
-  buildInputs = [ gnustep.base gnustep.gui dbus libclang ];
+  buildInputs = [
+    gnustep.base
+    gnustep.gui
+    dbus
+    libclang
+  ];
 
   postPatch = ''
     # the gnustep build system expects all additional

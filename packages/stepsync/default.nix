@@ -1,9 +1,11 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "step_sync";
   version = "1.0";
 
@@ -12,7 +14,16 @@ gnustep.gsmakeDerivation rec {
     sha256 = "0f4xwf9wpqr7yf78829pfq1p8v5ridqi61146m1aa2r850wd5k4p";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     description = "File synchronization tool for GNUstep";

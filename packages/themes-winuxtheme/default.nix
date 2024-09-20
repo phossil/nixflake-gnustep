@@ -1,11 +1,13 @@
-{ lib
-, fetchFromGitHub
-, gnustep
-, wine
-, pkg-config
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
+  wine,
+  pkg-config,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "themes-winuxtheme";
   version = "2022-12-26";
 
@@ -17,9 +19,17 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  #nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+    #pkg-config
+  ];
 
-  buildInputs = [ gnustep.base gnustep.gui wine ];
+  buildInputs = [
+    gnustep.base
+    gnustep.gui
+    wine
+  ];
 
   meta = with lib; {
     # ofc i needed to try mixing two different api's

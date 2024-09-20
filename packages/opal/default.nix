@@ -1,15 +1,17 @@
-{ lib
-, fetchFromGitHub
-, gnustep
-, pkg-config
-, cairo
-, libjpeg
-, libpng
-, libtiff
-, lcms
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
+  pkg-config,
+  cairo,
+  libjpeg,
+  libpng,
+  libtiff,
+  lcms,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "opal";
   version = "2022-09-03";
 
@@ -21,7 +23,11 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  nativeBuildInputs = [ pkg-config ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+    pkg-config
+  ];
 
   buildInputs = [
     gnustep.base

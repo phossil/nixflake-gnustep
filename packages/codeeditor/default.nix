@@ -1,9 +1,11 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "code_editor";
   version = "0.4.4";
 
@@ -12,13 +14,21 @@ gnustep.gsmakeDerivation rec {
     sha256 = "0vqbg06k8zvrkmy1pbk2q2isdkqndng79dnskznh07f4ai8x3r1j";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     # likely suffers from bitrot
     broken = true;
-    description =
-      "CodeEditor is a non-rich text editor for GNUstep with several enhancement for code editing";
+    description = "CodeEditor is a non-rich text editor for GNUstep with several enhancement for code editing";
     homepage = "https://www.nongnu.org/codeeditor/";
     license = licenses.gpl2Plus;
     maintainers = with maintainers; [ phossil ];

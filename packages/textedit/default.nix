@@ -1,9 +1,11 @@
-{ lib
-, fetchFromGitHub
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "text_edit";
   version = "2016-05-05";
 
@@ -15,7 +17,16 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     description = " GNUstep port of OS X 10.6 TextEdit";

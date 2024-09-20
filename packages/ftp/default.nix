@@ -1,9 +1,11 @@
-{ lib
-, fetchurl
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchurl,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "ftp";
   version = "0.6";
 
@@ -12,7 +14,16 @@ gnustep.gsmakeDerivation rec {
     sha256 = "046nqh97ak23fslccvbpkz4x77hgbn8807zdhfhzwdrz18flr27r";
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     description = "FTP client for GNUstep";

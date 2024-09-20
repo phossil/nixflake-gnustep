@@ -1,9 +1,11 @@
-{ lib
-, fetchFromGitHub
-, gnustep
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "xcode";
   version = "2023-03-20";
 
@@ -15,7 +17,16 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  buildInputs = with gnustep; [ base back gui ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = with gnustep; [
+    base
+    back
+    gui
+  ];
 
   meta = with lib; {
     description = "GNUstep library for building Xcode projects";

@@ -1,10 +1,11 @@
 {
-  description = "flake for testing miscellaneous derivations";
+  description = "flake with a bunch of random gnustep packages";
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -12,35 +13,30 @@
     {
       # these are yet to be added to nixpkgs
       packages.${system} = with pkgs; rec {
-        xcode = callPackage ./packages/libs/xcode { };
-        terminal = callPackage ./packages/terminal { };
-        price = callPackage ./packages/price { };
-        step_sync = callPackage ./packages/stepsync { };
-        themes-gtk = callPackage ./packages/plugins/themes-gtk { };
-        # broken
-        #cenon = callPackage ./packages/cenon { };
-        help_viewer = callPackage ./packages/helpviewer { };
+        dbuskit = callPackage ./packages/dbuskit { };
         ftp = callPackage ./packages/ftp { };
         graphos = callPackage ./packages/graphos { };
-        # broken
-        #code_editor = callPackage ./packages/codeeditor { };
-        # broken
-        #steptalk = callPackage ./packages/steptalk { };
+        price = callPackage ./packages/price { };
+        step_sync = callPackage ./packages/stepsync { };
+        terminal = callPackage ./packages/terminal { };
         text_edit = callPackage ./packages/textedit { };
+        xcode = callPackage ./packages/xcode { };
         # broken
+        #cenon = callPackage ./packages/cenon { };
+        #code_editor = callPackage ./packages/codeeditor { };
         #corebase = callPackage ./packages/libs/corebase { };
-        dbuskit = callPackage ./packages/libs/dbuskit { };
-        # broken
+        #help_viewer = callPackage ./packages/helpviewer { };
         #opal = callPackage ./packages/libs/opal { };
-        simplewebkit = callPackage ./packages/libs/simplewebkit { };
-        vespucci = callPackage ./packages/vespucci {
-          inherit simplewebkit;
-        };
-        # broken
-        themes-win_ux_theme = callPackage ./packages/plugins/themes-winuxtheme { };
+        #simplewebkit = callPackage ./packages/simplewebkit { };
+        #steptalk = callPackage ./packages/steptalk { };
+        #themes-gtk = callPackage ./packages/themes-gtk { };
+        #themes-win_ux_theme = callPackage ./packages/themes-winuxtheme { };
+        #vespucci = callPackage ./packages/vespucci {
+        #  inherit simplewebkit;
+        #};
       };
 
       # make the flake look pretty :)
-      formatter.${system} = pkgs.nixpkgs-fmt;
+      formatter.${system} = pkgs.nixfmt-rfc-style;
     };
 }

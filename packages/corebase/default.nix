@@ -1,11 +1,13 @@
-{ lib
-, fetchFromGitHub
-, gnustep
-, icu
-, tzdata
+{
+  lib,
+  clangStdenv,
+  fetchFromGitHub,
+  gnustep,
+  icu,
+  tzdata,
 }:
 
-gnustep.gsmakeDerivation rec {
+clangStdenv.mkDerivation rec {
   pname = "corebase";
   version = "0.1.1";
 
@@ -17,13 +19,20 @@ gnustep.gsmakeDerivation rec {
     fetchSubmodules = true;
   };
 
-  buildInputs = [ gnustep.base icu ];
+  nativeBuildInputs = [
+    gnustep.make
+    gnustep.wrapGNUstepAppsHook
+  ];
+
+  buildInputs = [
+    gnustep.base
+    icu
+  ];
 
   meta = with lib; {
     # how do i give it time zonedata ?
     broken = true;
-    description =
-      "A library of general-purpose, non-graphical C object for GNUstep";
+    description = "A library of general-purpose, non-graphical C object for GNUstep";
     homepage = "http://www.gnustep.org/";
     license = licenses.lgpl21Only;
     maintainers = with maintainers; [ phossil ];
